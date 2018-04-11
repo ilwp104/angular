@@ -37,6 +37,16 @@
     <style media="screen">
       #wrap_table{
         width: 500px;
+        text-align: center;
+      }
+      tr * {
+        flex: 1;
+        text-align: center;
+      }
+
+      tr {
+        width: 100%;
+        display: flex;
       }
     </style>
     <div id="wrap_table" ng-app="todo" ng-controller="TodoCtrl">
@@ -49,10 +59,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="todo in todos">
+          <tr ng-repeat="todo in todos | filter:status">
             <td>{{todo.title}}</td>
             <td><input type="checkbox" ng-model="todo.completed"></td>
             <td><button class="btn btn-danger" ng-click="remove(todo)">삭제</button></td>
+          </tr>
+          <tr>
+            <td><button class="btn btn-primary" ng-click="status = {completed : true}">한 일</button></td>
+            <td><button class="btn btn-primary" ng-click="status = {completed : false}">해야할 일</button></td>
+            <td><button class="btn btn-primary" ng-click="status = {}">All</button></td>
           </tr>
         </tbody>
       </table>
