@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script type="text/javascript">
+      var app =angular.module("todo",[]);
+      app.controller("TodoCtrl",function ($scope) {
+        $scope.todos = [
+          {
+            title : "study",
+            completed : true,
+          },
+          {
+            title : "game",
+            completed : false,
+          },
+          {
+            title : "watching TV",
+            completed : true,
+          }
+        ]
+        $scope.remove = function (todo) {
+          var idx = $scope.todos.findIndex(function (item) {
+            return item === todo;
+          });
+          if (idx > -1) {
+            $scope.todos.splice(idx,1);
+          }
+        }
+      });
+    </script>
+    <style media="screen">
+      #wrap_table{
+        width: 500px;
+      }
+    </style>
+    <div id="wrap_table" ng-app="todo" ng-controller="TodoCtrl">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>title</th>
+            <th>completed</th>
+            <th>delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="todo in todos">
+            <td>{{todo.title}}</td>
+            <td><input type="checkbox" ng-model="todo.completed"></td>
+            <td><button class="btn btn-danger" ng-click="remove(todo)">삭제</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
