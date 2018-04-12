@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <script type="text/javascript">
+    var app = angular.module("todo", []);
+    app.controller("TodoCtrl", function($scope) {
+      $scope.todos = [{
+          title: "study",
+          completed: true,
+        },
+        {
+          title: "game",
+          completed: false,
+        },
+        {
+          title: "watching TV",
+          completed: true,
+        }
+      ]
+      $scope.remove = function(todo) {
+        var idx = $scope.todos.findIndex(function(item) {
+          return item === todo;
+        });
+        if (idx > -1) {
+          $scope.todos.splice(idx, 1);
+        }
+      }
+      $scope.add = function(item) {
+        var newtodo = {
+          title: item,
+          completed: false
+        }
+
+        $scope.todos.push(newtodo);
+        $scope.newtodo = "";
+      }
+    });
+  </script>
+  <style media="screen">
+    #wrap_table {
+      width: 500px;
+      text-align: center;
+    }
+
+    tr * {
+      flex: 1;
+      text-align: center;
+    }
+
+    tr {
+      width: 100%;
+      display: flex;
+    }
+    .todoForm{
+      width: 500px;
+      display: flex;
+      flex-direction: row;
+    }
+  </style>
+  <div id="wrap_table" ng-app="todo" ng-controller="TodoCtrl">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>title</th>
+          <th>completed</th>
+          <th>delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="todo in todos | filter:status">
+          <td>{{todo.title}}</td>
+          <td><input type="checkbox" ng-model="todo.completed"></td>
+          <td><button class="btn btn-danger" ng-click="remove(todo)">삭제</button></td>
+        </tr>
+        <tr>
+          <td><button class="btn btn-primary" ng-click="status = {completed : true}">한 일</button></td>
+          <td><button class="btn btn-primary" ng-click="status = {completed : false}">해야할 일</button></td>
+          <td><button class="btn btn-primary" ng-click="status = {}">All</button></td>
+        </tr>
+
+      </tbody>
+    </table>
+    <form class="todoForm" name="todoForm" ng-submit="add(newtodo)">
+      <div class="form-group">
+        <div class="input-group">
+          <input type="text" class="form-control" id="exampleInputAmount" placeholder="입력해주세요" ng-model="newtodo">
+          <div class="input-group-addon">
+            <input type="submit" name="" style="background : transparent; border:0" value="추가">
+            <!-- <button type="button" name="button" style="background : transparent; border:0" ng-click="add(newtodo)">추가</button> -->
+          </div>
+        </div>
+      </div>
+    </form>
+    <pre>{{todoForm | json}}</pre>
+  </div>
+
+</body>
+
+</html>
